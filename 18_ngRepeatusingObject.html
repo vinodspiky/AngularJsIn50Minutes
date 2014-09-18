@@ -1,0 +1,38 @@
+<!-- in this program u are not able to add duplicate element in the list why??? after ctrying to add duplicate remove is also not working -->
+<!DOCTYPE html>
+<html lang="en" data-ng-app="nameApp">
+<!--tells that for this whole app..use a module named "nameApp"  
+Remark...there may be also..multiple ng-app..so u could have more than one app in a single page which are independent-->
+<head>
+    <meta charset="UTF-8">
+    <title>Angular Controller</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.js"></script>
+    
+    <script> 
+        //global function-----which is not better for complex application..as it is exposed to hidden this....
+        var nameApp=angular.module('nameApp',[]);
+        //FOCUS: MODULE NAME AND VAR NAME AND ng_app="DXXX" ALL THREE SHOULD BE SAME
+        //first argument is name of module and second is list of dependencies...
+        //so right now this module does not have any dependencies.
+        nameApp.controller('nameCtrl',function($scope){//define a controller using "controller" api..to avoid global definition 
+        	$scope.countries=[{id:200,location:"China"},
+        	{id:201,location:"Russia"},
+        	{id:202,location:"USA"},
+        	{id:203,location:"England"}]        	
+           });
+        
+    </script>
+</head>
+<body data-ng-controller="nameCtrl">
+	<table>
+		<tr>
+			<th>Country Id</th>
+			<th>Country Location</th>
+		</tr>
+		<tr data-ng-repeat="country in countries">>
+			<td>{{country.id}}</td>
+			<td>{{country.location}}</td>
+		</tr>
+	</table>
+</body>
+</html>

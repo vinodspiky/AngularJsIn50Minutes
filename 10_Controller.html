@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app>
+<!--  ng-app are angular directives they extend the vocabulary of html.teaches to html new tricks U can also create ur directives!!!-->
+<head>
+	<meta charset="UTF-8">
+	<title>Angular Controller</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.js"></script>
+    <script> 
+        //global function-----which is not better for complex application..as it is exposed
+        function nameCtrl($scope){//name convention ofr angular..end the name of controller function with ctrl
+            $scope.firstName="Vinod";
+            //$scope is  plain java script object provided by angular js.this object is model.
+            $scope.lastName="Choudhary"; 
+        }
+    </script>
+</head>
+<body data-ng-controller="nameCtrl">
+<!--ng-controller..says use "nameCtrl " function as a controlller for the body tag -->
+    First Name:<input data-ng-model="firstName" type="text"/><br>
+<!--    ng-model directive---it tell that the context of this input field  is bound to "name" property of angular model -->
+    Last Name:<input data-ng-model="lastName" type="text"/>
+    <br>
+    Hello {{firstName}} {{lastName}}
+<!--    Line 12 is--data binding-- data "name is bound with the input field."-->
+</body>
+</html>

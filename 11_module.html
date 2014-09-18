@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="nameApp">
+<!--tells that for this whole app..use a module named "nameApp"  
+Remark...there may be also..multiple ng-app..so u could have more than one app in a single page which are independent-->
+<head>
+    <meta charset="UTF-8">
+    <title>Angular Controller</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.js"></script>    
+    <script> 
+        //global function-----which is not better for complex application..as it is exposed to hidden this....
+        var nameApp=angular.module('nameApp',[]);
+        //FOCUS: MODULE NAME AND VAR NAME AND ng_app="DXXX" ALL THREE SHOULD BE SAME
+        //first argument is name of module and second is list of dependencies...
+        //so right now this module does not have any dependencies.
+        nameApp.controller('nameCtrl',function($scope){//define a controller using "controller" api..to avoid global definition 
+
+            //first argument is the name of controller..n second is the function of controller..see previous example for clarification
+            $scope.firstName="Vinod";
+            $scope.lastName="Choudhary"; 
+        } );
+        
+    </script>
+</head>
+<body data-ng-controller="nameCtrl">
+<!--ng-controller..says use "nameCtrl " function as a controlller for the body tag -->
+    First Name:<input data-ng-model="firstName" type="text"/><br>
+<!--    ng-model directive-it tell that the context of this input field  is bound to "name" property of angular model -->
+   Last Name:<input data-ng-model="lastName" type="text"/>
+    <br>
+    Hello {{firstName}} {{lastName}}
+<!--    Line 12 isdata binding- data "name is bound with the input field."-->
+
+</body>
+</html>

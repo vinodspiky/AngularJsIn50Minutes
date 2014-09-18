@@ -1,0 +1,51 @@
+
+<!-- big question is ..how angular knows when u changed property on the scope -->
+<!DOCTYPE html>
+<html lang="en" data-ng-app="nameApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular Controller</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.js"></script>
+    
+    <script>        
+        var nameApp=angular.module('nameApp',[]);
+        nameApp.controller('nameCtrl',function($scope){
+            $scope.firstName="Vinod";
+
+            // syntax for $watch----$watch(watchExpression, listener, [objectEquality]);
+            //it watches for the property chnaged  of any model..specified by watchexpression 
+            // watchExpression that is evaluated on each $digest cycle(for understanding say..at everychange).
+            // returned value is used by angular js
+            // A change in the return value triggers a call to the listener. here listener is function
+             
+            $scope.$watch('lastName',function(newValue,oldValue) {
+                // newVal contains the current value of the watchExpression
+                // oldVal contains the previous value of the watchExpression
+                //name of parameter may be anything 
+                console.log('new value is ' +newValue);
+                console.log('old Value is ' +oldValue);
+                // console.log('scope is ' +scope); put scope in 3rd argument of the function n see wat prinitng
+
+                console.log('\n');
+            });
+            // setting time out...execute the given function after 1000mili seconds
+            setTimeout(function(){
+             $scope.lastName="Choudhary";  
+             console.log("setTimeout is running"); 
+            },1000);
+             
+        } );
+        
+    </script>
+</head>
+<body data-ng-controller="nameCtrl">
+<!--ng-controller..says use "nameCtrl " function as a controlller for the body tag -->
+    First Name:<input data-ng-model="firstName" type="text"/><br>
+<!--    ng-model directive-it tell that the context of this input field  is bound to "name" property of angular model -->
+   Last Name:<input data-ng-model="lastName" type="text"/>
+    <br>
+    Hello {{firstName}} {{lastName}}
+<!--    Line 12 isdata binding- data "name is bound with the input field."-->
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!-- I am not using ng-submit here -->
+<!DOCTYPE html>
+<html lang="en" data-ng-app="nameApp">
+<!--tells that for this whole app..use a module named "nameApp"  
+Remark...there may be also..multiple ng-app..so u could have more than one app in a single page which are independent-->
+<head>
+    <meta charset="UTF-8">
+    <title>Angular Controller</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.js"></script>
+    
+    <script> 
+        //global function-----which is not better for complex application..as it is exposed to hidden this....
+        var nameApp=angular.module('nameApp',[]);
+        //FOCUS: MODULE NAME AND VAR NAME AND ng_app="DXXX" ALL THREE SHOULD BE SAME
+        //first argument is name of module and second is list of dependencies...
+        //so right now this module does not have any dependencies.
+        nameApp.controller('nameCtrl',function($scope){//define a controller using "controller" api..to avoid global definition 
+        	$scope.names=['Sonu','Anil','Sunil','Vinod'];//creating an array with names
+        	// FOCUS..WATEVER NEW DATATYPE U DEFINED IN CONTROLLER..CAN BE ACCESSED IN ANGULAR EXPRESSION IN HTML TAG..LIKE LINE NO24
+        	$scope.add=function () {
+        		$scope.names.push($scope.newTaskAdd);
+        		$scope.newTaskAdd="";
+        		 }
+           });
+        
+    </script>
+</head>
+<body data-ng-controller="nameCtrl">
+	<li ng-repeat="name in names">{{name}}</li>
+	<!--FOCUS: for resolving array nmaes..it go to $scope.names....because it is bind with nameCtrl controller -->
+	<!-- see the source code of output..u will get how amazingly..angular works -->
+	<!-- name should be same at both places here -->
+
+
+	<input type="text" data-ng-model="newTaskAdd">
+	<input type="button" value="addItem" data-ng-click="add()">
+	
+	<!-- Alternative Solution -->
+
+	<!-- <form data-ng-submit="add()"> -->
+	<!--instead of submitting n refreshing the page..go on to add function -->
+		<!-- <input type="text" data-ng-model="newTaskAdd"> -->
+		<!-- <input type="submit" value="addItem"> -->
+		<!-- see difference in input type;;from line no 35 n 41...if here type='button' its not working -->
+	<!-- </form> -->
+
+	<!-- if u see the output here  is one problrm..after adding the newTask the text remains in the textbox..for best UI..it should not be 
+	it is due to binding that is text box is bind with newAddTask....so to remove this add one more line $scope.newTaskAdd='' after 
+	pushing the newtask in the array.
+
+	-->
+
+</body>
+</html>
