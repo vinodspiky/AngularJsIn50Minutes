@@ -1,0 +1,51 @@
+<html ng-app="countryApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Angular.js Example</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.10/angular-route.min.js"></script>
+    <script>
+      var countryApp = angular.module('countryApp', ['ngRoute']);
+      // Angular Dependency Injection
+      // ngRoute is dependencies..which is defined in angular-rout.js.this shows that aor app is depend on this
+
+      // Following are the API for Routing..
+      countryApp.config(function($routeProvider) {//$routeProvider is also dependency Injection see documentation of $routeProvider
+        $routeProvider.
+          when('/', {//when url is .....#/(because page before # never rfreshes) then go to this template and use the given controller..which is defined below..which fetch the json data as object in this program
+            template: '<ul><li ng-repeat="country in countries">{{country.name}}</li><ul>',
+            controller: 'CountryListCtrl'
+          }).
+          when('/:countryName', {//: --says it is variable in the path 
+           //whihch is evaluated...so if u type ..#/southAfrica..then countryName is evaluated as southAfrica
+            template: '<h1>TODO create country detail view</h1>',
+            controller: 'CountryDetailCtrl'
+          }).
+          otherwise({
+            redirectTo: '/'
+          });
+          // focus above each route has controller
+      });
+
+
+
+      // controller 1 b       
+      countryApp.controller('CountryListCtrl', function ($scope, $http){
+        $http.get('countries.json').success(function(data) {
+          $scope.countries = data;
+        });
+      });
+      // controller 2
+      countryApp.controller('CountryDetailCtrl', function ($scope, $routeParams){
+        // $routeParam --dependencies..which gives...whatever  is inside this route(/countryName)
+        console.log($routeParams);
+      });
+
+    </script>
+  </head>
+  <body ng-controller="CountryListCtrl">
+    <ul>
+      <li ng-repeat="country in countries">{{country.name}}</li>
+    <ul>
+  </body>
+</html>

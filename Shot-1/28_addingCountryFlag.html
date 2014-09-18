@@ -1,0 +1,44 @@
+<html ng-app="countryApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Angular.js Example</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js"></script>
+    <script>
+      var countryApp = angular.module('countryApp', []);
+      countryApp.controller('CountryCtrl', function ($scope, $http){
+        $http.get('countries.json').success(function(data) {
+          $scope.countries = data;
+        });
+      });
+    </script>
+  </head>
+  <body ng-controller="CountryCtrl">
+    <table>
+      <tr>
+        <th>Country</th>
+        <th>Population</th>
+        <th>Flag</th>
+      </tr>
+      <tr ng-repeat="country in countries">
+        <td>{{country.name}}</td>
+        <!-- <td>{{country.population}}</td> -->
+        <td>{{country.population | number}}</td>
+        <!-- putt a comma inside number for systematic format -->
+
+        <!-- <td>{{country.population | currency}}</td> -->
+
+        <!-- if u want to put $ sign infront of population use built in filter currency....REMARk-U can put filter in any angular expression -->
+
+
+        <!-- <td><img src="{{country.flagURL}}" width="100"></td> -->    
+        <!-- U can put handle bar anywhere u want pretty much.... -->
+        <!-- it gives output with some error..failed to load resources
+        REASON IS--when i load the page..before the JSON file is loaded 
+        <!-- it tries to find the country.flagurl..which is terrible..to remove this..use- ng-src-> -->
+
+        <td><img data-ng-src="{{country.flagURL}}" width="100"></td>
+        <!-- ng-src atrribute can be abything like..image,Iframe etc -->
+      </tr>
+    </table>
+  </body>
+</html

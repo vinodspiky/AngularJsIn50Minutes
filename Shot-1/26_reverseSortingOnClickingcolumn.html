@@ -1,0 +1,64 @@
+<!-- program should run over http server -->
+<!DOCTYPE html>
+<html lang="en" data-ng-app="nameApp">
+<!--tells that for this whole app..use a module named "nameApp"  
+Remark...there may be also..multiple ng-app..so u could have more than one app in a single page which are independent-->
+<head>
+    <meta charset="UTF-8">
+    <title>Angular Controller</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.js"></script>
+    
+    <script> 
+
+    	var nameApp=angular.module('nameApp',[]);
+        //FOCUS: MODULE NAME AND VAR NAME AND ng_app="DXXX" ALL THREE SHOULD BE SAME
+        //first argument is name of module and second is list of dependencies...
+        //so right now this module does not have any dependencies.
+        nameApp.controller('nameCtrl',function($scope,$http){//define a controller using "controller" api..to avoid global definition
+            // REMARK..ANY TIME ANGULAR SEE $SIGN ARGUMENT IN FUNCTION IT TREATED AS DEPENDENCIE
+        	// here $scope and $http is the dependencies...see another way of having dependencies in next program
+        	 //here http model is injected...see only function signature is different from previous example 
+        	 // the http model automatically parses josn data into object..so u don't need to call JSON.parse()
+        	$http.get('nameList.json').success(function(data) {//data variable would be json Data..here is callback....data is the object..made with json file
+        		// $http takes a single argument and return a promise with two $http method success and error
+        		// this callback is called asynchronously..wen the response is available
+        		// error() ..called asynchly wen error occurs ya server returns response with error
+        		$scope.names=data;//array of object...with the data of json files...same as in previous example..instead of file .datas
+        		console.log($scope.names);
+
+        		console.log("vinod ");
+        		});
+
+
+        		$scope.sortField="";
+        		$scope.reverse=true;
+
+        	
+        	      	
+           });
+        
+    </script>
+</head>
+<body data-ng-controller="nameCtrl">
+	Search<input type='text' data-ng-model='query'>
+	<!-- search Implementation -->
+	<table>
+		<tr>
+			<th><a href="" data-ng-click="sortField='firstName'; reverse=!reverse">FirstNames</a></th>
+			<th><a href="" data-ng-click="sortField='lastName'; reverse=!reverse">LastNames</a></th>
+		</tr>
+		<tr data-ng-repeat="name in names | filter:query  |orderBy:sortField:reverse">
+			<!-- go to documentation on orderBy..it can take third value as a reverse -->
+			<!-- filter inside ng repeat focus on way of writting -->
+			<!-- here filter search for the both field...i.e firstName and secondNames -->
+			<!-- sorting done by firstName here see the way of using -->
+			<!-- putting - sort in reverse order -->
+			<!--orde matters in filter..ther r designed just like unix pipes..executed in the order of appearing
+			so best way to sort after filter-->
+			<!-- <tr data-ng-repeat="name in names |orderBy:'-firstName'| filter:query "> -->
+			<td>{{name.firstName}}</td>
+			<td>{{name.lastName}}</td>
+		</tr>
+	</table>
+</body>
+</html>
