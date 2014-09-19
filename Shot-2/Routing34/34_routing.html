@@ -6,21 +6,16 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.10/angular-route.min.js"></script>
     <script>
       var countryApp = angular.module('countryApp', ['ngRoute']);
-      // Angular Dependency Injection
-      // ngRoute is dependencies..which is defined in angular-rout.js.this shows that aor app is depend on this
-      //my module countryApp depend upon nGroute..another Modulr.
- 
-      // Following are the API for Routing..
-
+      
       countryApp.config(function($routeProvider) {//see config function
         $routeProvider.
-          when('/', {//when url is .....#/(because page before # never rfreshes) then go to this template and use the given controller..which is defined below..which fetch the json data as object in this program
-            template: '<ul><li ng-repeat="country in countries">{{country.name}}</li><ul>',
+          when('/', {
+            templateUrl: 'countryList.html',//FOcus Here ...put templateUrl instead of template..as in previous example
+            // otherwise countryList.html pages is not loaded.
             controller: 'CountryListCtrl'
           }).
-          when('/:countryName', {//: --says it is variable in the path 
-           //whihch is evaluated...so if u type ..#/southAfrica..then countryName is evaluated as "southAfrica"(as string)
-            template: '<h1>TODO create country detail view</h1>',
+          when('/:countryName', {
+            templateUrl:'info.html',
             controller: 'CountryDetailCtrl'
           }).
           otherwise({
@@ -37,6 +32,7 @@
 
       countryApp.controller('CountryDetailCtrl', function ($scope, $routeParams){
         // $routeParam --dependencies..which gives...whatever  is inside this route(/countryName)
+        // $scope.name=$routeParams.countryName;//this countryName is from line no 16
         console.log($routeParams);
         //$routeParams value is the value of "countryName" which is written in line no 21 in this program
 
@@ -45,6 +41,6 @@
     </script>
   </head>
   <body>
-    <div ng-view></div>
+    <div data-ng-view></div>
   </body>
 </html>
