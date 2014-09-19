@@ -21,22 +21,24 @@
             redirectTo: '/'
           });
       });
-
+      //controller1
       countryApp.controller('CountryListCtrl', function ($scope, $http){
         $http.get('countries.json').success(function(data) {
           $scope.countries = data;
         });
       });
-
+      //controller2
       countryApp.controller('CountryDetailCtrl', function ($scope, $routeParams, $http){
         $scope.name = $routeParams.countryName;
-
+         //if u want to access the content of json file..u need to access the json data like in controller1
         $http.get('countries.json').success(function(data) {
-
+          //this do linear searching through the data..by countryName
           var country = data.filter(function(entry){
-            return entry.name === $scope.name;
+            // here data is an array and filter is a function which operate on array..for checking go to console..define array n do dir(arr);
+            return entry.name === $scope.name;//$scope.name  taken from line no 32.
+            //this function return a boolean value...if value is true..then that entry is included in the filter list
           })[0];
-
+          //check in console ...did it fetch data of china after clicking china.If yes..filter work correctly
           console.log(country);
         });
       });

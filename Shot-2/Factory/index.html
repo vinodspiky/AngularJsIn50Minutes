@@ -1,0 +1,56 @@
+<html ng-app="countryApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Angular.js Example</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.10/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.10/angular-route.min.js"></script>
+    <script>
+      var countryApp = angular.module('countryApp', ['ngRoute']);
+
+      countryApp.config(function($routeProvider) {
+        $routeProvider.
+          when('/', {
+            templateUrl: 'country-list.html',
+            controller: 'CountryListCtrl'
+          }).
+          when('/:countryName', {
+            templateUrl: 'country-detail.html',
+            controller: 'CountryDetailCtrl'
+          }).
+          otherwise({
+            redirectTo: '/'
+          });
+      });
+      // in the previous examplw.at every clicking ,,json file is loading ..this is bad ..so we need a service which fetch the json data only once and use factory
+      
+      countryApp.factory('countries', function($http){//first argument is service name(countries),. it return an object that has a function name list ..this function do a callback..wen the data is loading successfuly
+        return {
+          list: function(callback){
+            $http.get('countries.json').success(callback);
+            //in the previous example..we r passing a function to success which takes data as an argument
+          }
+        };
+      });
+
+
+
+      countryApp.controller('CountryListCtrl', function ($scope, countries){//see diif the definition from previous passing factory..as aargument..this is how we inject our own dependency
+        // so by doing so(creating service using factory)..we can create our own thing which can be injected in controller and other thing also
+        countries.list(function(countries) {//see the change
+          $scope.countries = countries;
+        });
+      });
+
+      countryApp.controller('CountryDetailCtrl', function ($scope, $routeParams, $http){
+        $http.get('countries.json').success(function(data) {
+          $scope.country = data.filter(function(entry){
+            return entry.name === $routeParams.countryName
+          })[0];
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div ng-view></div>
+  </body>
+</html>
