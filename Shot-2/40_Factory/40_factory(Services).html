@@ -22,6 +22,10 @@
           });
       });
       // in the previous examplw.at every clicking ,,json file is loading ..this is bad ..so we need a service which fetch the json data only once and use factory
+
+      // the following is the recommended way of fetching data from server..n make them avaailble for using views in angular js
+
+      // the following created service named :'countries' can be used as angular dependency  which is shown in CountryListCtrl controller
       
       countryApp.factory('countries', function($http){//first argument is service name(countries),. it return an object that has a function name list ..this function do a callback..wen the data is loading successfuly
         return {
@@ -34,9 +38,10 @@
 
 
 
-      countryApp.controller('CountryListCtrl', function ($scope, countries){//see diif the definition from previous passing factory..as aargument..this is how we inject our own dependency
+      countryApp.controller('CountryListCtrl', function ($scope, countries){//see diif the definition from previous----here we r passing factory..as aargument..this is how we inject our own dependency
         // so by doing so(creating service using factory)..we can create our own thing which can be injected in controller and other thing also
-        countries.list(function(countries) {//see the change
+        countries.list(function(countries) {//see the change...
+          // contries.list ..calls the function created in services..line no 32
           $scope.countries = countries;
         });
       });

@@ -1,0 +1,72 @@
+<html ng-app="countryApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Angular.js Example</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.10/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.10/angular-route.min.js"></script>
+    <script>
+      var countryApp = angular.module('countryApp', ['ngRoute']);
+
+      countryApp.config(function($routeProvider) {
+        $routeProvider.
+          when('/', {
+            templateUrl: 'country-list.html',
+            controller: 'CountryListCtrl'
+          }).
+          when('/:countryName', {
+            templateUrl: 'country-detail.html',
+            controller: 'CountryDetailCtrl'
+          }).
+          otherwise({
+            redirectTo: '/'
+          });
+      });
+
+      countryApp.factory('countries', function($http){
+
+        //built In cache...used ...see the documentation for..$http
+        // here getdata is implemented using $http module of angular
+        function getData(callback){
+          $http({
+            method: 'GET',
+            url: 'countries.json',
+            cache: true
+          }).success(callback);
+        }
+      //Besides the above function..everything is same as for example 42       
+
+        return {
+          list: getData,
+          find: function(name, callback){
+            getData(function(data) {
+              var country = data.filter(function(entry){
+                return entry.name === name;
+              })[0];
+              callback(country);
+            });
+          }
+        };
+      });
+
+      countryApp.controller('CountryListCtrl', function ($scope, countries){
+        countries.list(function(countries) {
+          $scope.countries = countries;
+        });
+      });
+
+      countryApp.controller('CountryDetailCtrl', function ($scope, $routeParams, countries){
+        countries.find($routeParams.countryName, function(country) {
+          $scope.country = country;
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div ng-view></div>
+  </body>
+</html>
+
+
+<!-- the above programs output have the tracking of visited links...taht is if once we click on india on the output page..after that it's color changed..as it's visited
+but United States Of America...does not follow this.......
+Reason is....if u inspect this lement in console..it does not have %20 for space.....to handle it..let us do some thing in angulart js....in next example..(craeting your own filter) -->
